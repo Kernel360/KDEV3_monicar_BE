@@ -109,7 +109,7 @@ CREATE TABLE vehicle_event
 DROP TABLE IF EXISTS cycle_info;
 CREATE TABLE cycle_info
 (
-    `cycle_info_id` BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '차량 PK',
+    `cycle_info_id` BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '주기정보 PK',
     `interval_at`   TIMESTAMP    NOT NULL COMMENT '발생시간',
     `status`        VARCHAR(100) NOT NULL COMMENT 'GPS 상태',
     `lat`           DECIMAL      NOT NULL COMMENT '위도 * 1000000 한값(소수점 6자리)',
