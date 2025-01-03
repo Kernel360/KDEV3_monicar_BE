@@ -1,7 +1,7 @@
 package org.controlcenter.company.application;
 
-import java.util.Optional;
-
+import org.controlcenter.common.exception.BusinessException;
+import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.company.application.port.CompanyRepository;
 import org.controlcenter.company.domain.Company;
 import org.controlcenter.company.domain.CompanyCreate;
@@ -18,12 +18,16 @@ public class CompanyService {
 
 	@Transactional
 	public Company register(CompanyCreate command) {
-		Company company = Company.create(command);
+		validateAlreadyExistCompanyName(command.getCompanyName());
 
-		return companyRepository.save(company);
+		return companyRepository.save(Company.create(command));
 	}
 
-	private Optional<Company> findByCompanyName(String companyName) {
-		return companyRepository.findByCompanyName(companyName);
+	private void validateAlreadyExistCompanyName(String companyName) {
+		companyRepository.findByCompanyName(companyName)
+			.ifPresent(existCompany -> {
+				throw new BusinessException(ErrorCode.ENTITY_ALREADY_EXIST);
+			});
 	}
+
 }
