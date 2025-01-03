@@ -43,8 +43,8 @@ public class GlobalExceptionHandler {
 	}
 
 	/**
-	 * enum 타입이 일치하지 않을 때 발생하는 예외 처리
-	 * RequestParam 으로 전달된 enum 타입의 값이 맞지 않을 때 주로 발생
+	 * 타입이 일치하지 않을 때 발생하는 예외 처리
+	 * RequestParam 으로 전달된 값의 타입이 맞지 않을 때 주로 발생
 	 */
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	protected BaseResponse<String> handleMethodArgumentTypeMismatchException(
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
 			.map(fieldError -> String.format("%s : %s", fieldError.getField(), fieldError.getDefaultMessage()))
 			.toList();
 
-		log.error("Business Exception 발생: {}", errors);
+		log.error("Business Exception 발생: {}", errors, e);
 
 		return BaseResponse.fail(errors);
 	}
