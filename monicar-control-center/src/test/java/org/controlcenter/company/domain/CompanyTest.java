@@ -8,9 +8,9 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 @DisplayName("[domain 단위테스트] Company")
 class CompanyTest {
 
-	@DisplayName("쿠폰을 생성할 수 있다.")
+	@DisplayName("업체를 생성할 수 있다.")
 	@Test
-	void createCoupon() {
+	void createCompany() {
 		// given
 		CompanyCreate companyCreate = CompanyCreate.builder()
 			.companyName("company")
