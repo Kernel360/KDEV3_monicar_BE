@@ -32,6 +32,9 @@ public class BaseResponse<T> {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private final Integer errorCode;
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private final Long timestamp;
+
 	public static <T> BaseResponse<T> success(SuccessCode code, T data) {
 		return BaseResponse.<T>builder()
 			.isSuccess(true)
@@ -64,6 +67,7 @@ public class BaseResponse<T> {
 			.isSuccess(false)
 			.errorMessage(List.of(code.getMessage()))
 			.errorCode(code.getCode())
+			.timestamp(System.currentTimeMillis())
 			.build();
 	}
 
@@ -72,6 +76,7 @@ public class BaseResponse<T> {
 			.isSuccess(false)
 			.errorMessage(errorMessages)
 			.errorCode(1000)
+			.timestamp(System.currentTimeMillis())
 			.build();
 	}
 }
