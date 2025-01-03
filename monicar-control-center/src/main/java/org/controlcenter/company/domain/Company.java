@@ -1,9 +1,9 @@
 package org.controlcenter.company.domain;
 
-import java.time.LocalDateTime;
-
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -14,4 +14,11 @@ public class Company {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private LocalDateTime deletedAt;
+
+    public static Company create(CompanyCreate companyCreate) {
+        return Company.builder()
+                .companyName(companyCreate.getCompanyName())
+                .businessRegistrationNumber(companyCreate.getBusinessRegistrationNumber())
+                .build();
+    }
 }
