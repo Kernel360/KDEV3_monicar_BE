@@ -11,8 +11,8 @@ public record CommonResponse<T>(
 	Object rstMsg,
 	String mdn
 ) {
-	public static <T> CommonResponse<T> ok(@Nullable final String mdn) {
-		return new CommonResponse<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), mdn);
+	public static <T> CommonResponse<T> ok(final long mdn) {
+		return new CommonResponse<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), Long.toString(mdn));
 	}
 
 	public static <T> CommonResponse<T> fail(final CustomException e, @Nullable final String mdn) {

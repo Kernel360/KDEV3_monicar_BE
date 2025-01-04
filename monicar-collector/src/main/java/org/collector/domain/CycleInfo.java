@@ -3,6 +3,7 @@ package org.collector.domain;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 import org.collector.presentation.dto.GCD;
@@ -52,7 +53,10 @@ public class CycleInfo implements Serializable {
 	@JoinColumn(name = "vehicle_id")
 	private Vehicle vehicle;
 
-	public static BigDecimal convertToSixDecimalPlaces(Double value) {
-		return BigDecimal.valueOf(value / 1000000.0);
+	public static BigDecimal convertToSixDecimalPlaces(Integer value) {
+		if (value == null) {
+			return BigDecimal.ZERO;
+		}
+		return new BigDecimal(value).divide(new BigDecimal(1000000), 6, RoundingMode.HALF_UP);
 	}
 }

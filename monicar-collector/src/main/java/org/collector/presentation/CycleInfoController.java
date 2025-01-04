@@ -20,7 +20,7 @@ public class CycleInfoController {
 
 	@PostMapping
 	public CommonResponse<Void> cycleInfoSave(final @Valid @RequestBody CycleInfoRequest request) {
-		cycleInfoService.cycleInfoSave(request);
-		return CommonResponse.ok("111");
+		long mdn = cycleInfoService.cycleInfoSave(request);
+		return CommonResponse.ok(mdn);
 	}
 }
