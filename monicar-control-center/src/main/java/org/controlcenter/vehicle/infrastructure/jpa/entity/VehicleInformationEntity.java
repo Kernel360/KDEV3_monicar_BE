@@ -27,6 +27,8 @@ public class VehicleInformationEntity {
 
 	private Long vehicleTypeId;
 
+	private String vehicleNumber;
+
 	private String mdn;
 
 	private String tid;
@@ -51,6 +53,7 @@ public class VehicleInformationEntity {
 		VehicleInformationEntity vehicleInformationEntity = new VehicleInformationEntity();
 		vehicleInformationEntity.id = vehicleInformation.getId();
 		vehicleInformationEntity.vehicleTypeId = vehicleInformation.getVehicleTypeId();
+		vehicleInformationEntity.vehicleNumber = vehicleInformation.getVehicleNumber();
 		vehicleInformationEntity.mdn = vehicleInformation.getMdn();
 		vehicleInformationEntity.tid = vehicleInformation.getTid();
 		vehicleInformationEntity.mid = vehicleInformation.getMid();
@@ -67,6 +70,7 @@ public class VehicleInformationEntity {
 		return VehicleInformation.builder()
 			.id(id)
 			.vehicleTypeId(vehicleTypeId)
+			.vehicleNumber(vehicleNumber)
 			.mdn(mdn)
 			.tid(tid)
 			.mid(mid)

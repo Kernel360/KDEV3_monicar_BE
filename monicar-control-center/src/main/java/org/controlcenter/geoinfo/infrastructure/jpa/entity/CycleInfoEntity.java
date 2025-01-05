@@ -32,6 +32,8 @@ public class CycleInfoEntity {
 	@Column(name = "cycle_info_id")
 	private Long id;
 
+	private Long vehicleId;
+
 	@Enumerated(EnumType.STRING)
 	private GpsStatus status;
 
@@ -56,6 +58,7 @@ public class CycleInfoEntity {
 	public static CycleInfoEntity from(CycleInfo cycleInfo) {
 		CycleInfoEntity cycleInfoEntity = new CycleInfoEntity();
 		cycleInfoEntity.id = cycleInfo.getId();
+		cycleInfoEntity.vehicleId = cycleInfo.getVehicleId();
 		cycleInfoEntity.status = cycleInfo.getStatus();
 		cycleInfoEntity.lat = cycleInfo.getLat();
 		cycleInfoEntity.lon = cycleInfo.getLon();
@@ -71,6 +74,7 @@ public class CycleInfoEntity {
 	public CycleInfo toDomain() {
 		return CycleInfo.builder()
 			.id(id)
+			.vehicleId(vehicleId)
 			.status(status)
 			.lat(lat)
 			.lon(lon)

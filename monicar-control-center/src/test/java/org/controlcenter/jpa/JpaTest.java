@@ -276,6 +276,7 @@ public class JpaTest {
 	void CycleInfoEntityTest() {
 		// given
 		CycleInfo cycleInfo = CycleInfo.builder()
+			.vehicleId(999L)
 			.status(GpsStatus.A)
 			.lat(BigDecimal.ONE)
 			.lon(BigDecimal.ONE)
@@ -300,6 +301,7 @@ public class JpaTest {
 			() -> assertThat(savedCycleInfo.getId()).isNotNull(),
 			() -> assertThat(savedCycleInfo.getCreatedAt()).isNotNull(),
 			() -> assertThat(savedCycleInfo.getUpdatedAt()).isNotNull(),
+			() -> assertThat(savedCycleInfo.getVehicleId()).isEqualTo(999L),
 			() -> assertThat(savedCycleInfo.getStatus()).isEqualTo(GpsStatus.A),
 			() -> assertThat(savedCycleInfo.getLat()).isEqualTo(BigDecimal.ONE),
 			() -> assertThat(savedCycleInfo.getLon()).isEqualTo(BigDecimal.ONE),
@@ -314,6 +316,7 @@ public class JpaTest {
 		// given
 		VehicleInformation vehicleInformation = VehicleInformation.builder()
 			.vehicleTypeId(999L)
+			.vehicleNumber("test vehicle name")
 			.mdn("test mdn")
 			.tid("test tid")
 			.mid(999)
@@ -338,6 +341,7 @@ public class JpaTest {
 			() -> assertThat(savedVehicleInformation.getId()).isNotNull(),
 			() -> assertThat(savedVehicleInformation.getCreatedAt()).isNotNull(),
 			() -> assertThat(savedVehicleInformation.getUpdatedAt()).isNotNull(),
+			() -> assertThat(savedVehicleInformation.getVehicleNumber()).isEqualTo("test vehicle name"),
 			() -> assertThat(savedVehicleInformation.getMdn()).isEqualTo("test mdn"),
 			() -> assertThat(savedVehicleInformation.getTid()).isEqualTo("test tid"),
 			() -> assertThat(savedVehicleInformation.getMid()).isEqualTo(999),

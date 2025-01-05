@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 public class CycleInfo {
 	private long id;
+	private long vehicleId;
 	private GpsStatus status;
 	private BigDecimal lat;
 	private BigDecimal lon;
