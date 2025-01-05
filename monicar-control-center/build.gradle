@@ -1,10 +1,22 @@
 dependencies {
+    // spring
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 
+    // mybatis
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3"
+
+    // querydsl
+    implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    // test container
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:mysql")
 }
@@ -15,4 +27,25 @@ tasks.bootJar {
 
 tasks.jar {
     enabled = true
+}
+
+// querydsl : Q클래스를 자동으로 생성하고 관리하기 위한 빌드 설정
+def querydslDir = "${projectDir}/build/generated/querydsl"
+
+sourceSets {
+    main {
+        java {
+            srcDirs querydslDir
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.generatedSourceOutputDirectory = file(querydslDir)
+}
+
+tasks.named("clean") {
+    doLast {
+        delete querydslDir
+    }
 }
