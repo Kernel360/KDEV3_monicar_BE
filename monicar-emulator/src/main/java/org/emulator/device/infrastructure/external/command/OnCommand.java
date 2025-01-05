@@ -1,9 +1,14 @@
 package org.emulator.device.infrastructure.external.command;
 
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
-import org.emulator.device.VehicleConstant;
+import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.domain.OnInfo;
+import org.emulator.device.infrastructure.external.command.vo.FixedVehicleInfo;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Builder;
 
 /**
  * 차량의 시동 ON / OFF 상태에서 전달하는 데이터를 담는 레코드
@@ -22,54 +27,36 @@ import org.emulator.device.domain.OnInfo;
  * @param spd     속도 - 차량의 현재 속도
  * @param sum     누적 주행 거리 - 차량의 현재 총 주행 거리
  */
+@Builder
 public record OnCommand(
-	String mdn,
+	long mdn,
 	String tid,
-	String mid,
-	String pv,
-	String did,
-	String onTime,
-	String offTime,
-	String gcd,
-	String lat,
-	String lon,
-	String ang,
-	String spd,
-	String sum
+	long mid,
+	int pv,
+	long did,
+	@JsonFormat(pattern = "yyyyMMddHHmmss") LocalDateTime onTime,
+	@JsonFormat(pattern = "yyyyMMddHHmmss") LocalDateTime offTime,
+	GpsStatus gcd,
+	long lat,
+	long lon,
+	int ang,
+	int spd,
+	int sum
 ) {
-	public static final int DIRECTION_MIN = 0;
-	public static final int DIRECTION_MAX = 365;
-	public static final int SPEED_MIN = 0;
-	public static final int SPEED_MAX = 255;
-	public static final int TOTAL_DISTANCE_MIN = 0;
-	public static final int TOTAL_DISTANCE_MAX = 9999999;
-
-	public static OnCommand of(OnInfo onInfo) {
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-
-		String onTime = onInfo.getOnTime().format(dateTimeFormatter);
-		String offTime = "";
-		String lat = String.valueOf(onInfo.getLatitude());
-		String lon = String.valueOf(onInfo.getLongitude());
-		String ang = String.valueOf(Math.clamp(onInfo.getDirection(), DIRECTION_MIN, DIRECTION_MAX));
-		String spd = String.valueOf(Math.clamp(onInfo.getSpeed(), SPEED_MIN, SPEED_MAX));
-		String sum = String.valueOf(
-			Math.clamp(onInfo.getTotalDistance(), TOTAL_DISTANCE_MIN, TOTAL_DISTANCE_MAX));
-
-		return new OnCommand(
-			VehicleConstant.VEHICLE_NUM,
-			VehicleConstant.TERMINAL_ID,
-			VehicleConstant.MANUFACTURER_ID,
-			VehicleConstant.PACKET_VERSION,
-			VehicleConstant.DEVICE_ID,
-			onTime,
-			offTime,
-			onInfo.getGpsStatus().toString(),
-			lat,
-			lon,
-			ang,
-			spd,
-			sum
-		);
+	public static OnCommand from(OnInfo onInfo) {
+		FixedVehicleInfo fixedInfo = FixedVehicleInfo.getInstance();
+		return OnCommand.builder()
+			.mdn(fixedInfo.getMdn())
+			.tid(fixedInfo.getTid())
+			.mid(fixedInfo.getMid())
+			.pv(fixedInfo.getPv())
+			.did(fixedInfo.getDid())
+			.onTime(onInfo.getOnTime())
+			.offTime(onInfo.getOffTime())
+			.gcd(onInfo.getGpsStatus())
+			.ang(onInfo.getDirection().getValue())
+			.spd(onInfo.getSpeed().getValue())
+			.sum(onInfo.getTotalDistance().getValue())
+			.build();
 	}
 }

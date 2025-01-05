@@ -1,37 +1,31 @@
 package org.emulator.device.infrastructure;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Deque;
-
 import java.util.LinkedList;
-
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import org.emulator.device.VehicleConstant;
-import org.emulator.device.application.port.CycleInfoEventPublisher;
+import org.emulator.device.application.port.EmulatorRepository;
 import org.emulator.device.application.port.LocationReceiver;
 import org.emulator.device.application.port.TransmissionTimeProvider;
 import org.emulator.device.domain.CycleInfo;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.infrastructure.util.Calculator;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class GpsTracker implements SensorTracker {
 	private final LocationReceiver locationReceiver;
-	@Qualifier("emulatorTransmissionTimeProvider")
+	private final EmulatorRepository emulatorRepository;
 	private final TransmissionTimeProvider timeProvider;
-	@Qualifier("applicationCycleInfoEventPublisher")
-	private final CycleInfoEventPublisher publisher;
+	private final ApplicationCycleInfoEventPublisher applicationEventPublisher;
 
 	private final Deque<CycleInfo> cycleInfos = new LinkedList<>();
 	private CycleInfo recentCycleInfo;
@@ -43,65 +37,72 @@ public class GpsTracker implements SensorTracker {
 
 		if (cycleInfos.size() > time) {
 			List<CycleInfo> cycleInfoList = pollFromDeque(time);
-			publisher.publishEvent(cycleInfoList);
+			applicationEventPublisher.publishEvent(cycleInfoList);
 
 			log.info("[Thread: {}] {}", Thread.currentThread().getName(), "sending!");
 		}
 
 		GpsTime currentLocation = locationReceiver.getLocation();
-		// TODO: recentCycleInfo 가 null일 때 로직 개선
 		if (recentCycleInfo == null) {
 			CycleInfo currentCycleInfo = CycleInfo.create(
-				currentLocation.intervalAt(),
+				currentLocation,
 				GpsStatus.A,
-				currentLocation.location().lat(),
-				currentLocation.location().lon(),
 				0,
 				0,
-				0,
-				VehicleConstant.BATTERY);
-			cycleInfos.add(currentCycleInfo);
+				0
+			);
+			cycleInfos.offerLast(currentCycleInfo);
 			recentCycleInfo = currentCycleInfo;
 			return;
 		}
 
-		int distance = Calculator.calculateDistance(
-			recentCycleInfo.getLatitude(),
-			recentCycleInfo.getLongitude(),
-			currentLocation.location().lat(),
-			currentLocation.location().lon()
-		);
-		int speed = Calculator.calculateSpeed(
-			distance,
-			Duration.between(recentCycleInfo.getIntervalAt(), currentLocation.intervalAt()).toMillis()
-		);
-		int direction = Calculator.calculateDirection(
-			recentCycleInfo.getLatitude(),
-			recentCycleInfo.getLongitude(),
-			currentLocation.location().lat(),
-			currentLocation.location().lon()
-		);
+		int direction = getDirection(recentCycleInfo, currentLocation);
+		int distance = getDistance(recentCycleInfo, currentLocation);
+		int speed = getSpeed(distance, recentCycleInfo, currentLocation);
+
 		CycleInfo currentCycleInfo = CycleInfo.create(
-			currentLocation.intervalAt(),
+			currentLocation,
 			GpsStatus.A,
-			currentLocation.location().lat(),
-			currentLocation.location().lon(),
-			distance,
-			speed,
 			direction,
-			VehicleConstant.BATTERY
+			speed,
+			distance
 		);
 		cycleInfos.offerLast(currentCycleInfo);
 		recentCycleInfo = currentCycleInfo;
 
+		emulatorRepository.updateTotalDistance(distance);
+
 		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "collecting data. . .");
 	}
 
-	public List<CycleInfo> pollFromDeque(int size) {
+	private List<CycleInfo> pollFromDeque(int size) {
 		List<CycleInfo> result = new ArrayList<>();
 		while (!cycleInfos.isEmpty() && result.size() < size) {
 			result.add(cycleInfos.pollFirst());
 		}
 		return result;
+	}
+
+	private int getDistance(CycleInfo preInfo, GpsTime curInfo) {
+		return Calculator.calculateDistance(
+			preInfo.getGeo().getLatitude(),
+			preInfo.getGeo().getLongitude(),
+			curInfo.location().lat(),
+			curInfo.location().lon()
+		);
+	}
+
+	private int getSpeed(int distance, CycleInfo preInfo, GpsTime curInfo) {
+		Duration duration = Duration.between(preInfo.getIntervalAt(), curInfo.intervalAt());
+		return Calculator.calculateSpeed(distance, duration.toMillis());
+	}
+
+	private int getDirection(CycleInfo preInfo, GpsTime curInfo) {
+		return Calculator.calculateDirection(
+			preInfo.getGeo().getLatitude(),
+			preInfo.getGeo().getLongitude(),
+			curInfo.location().lat(),
+			curInfo.location().lon()
+		);
 	}
 }

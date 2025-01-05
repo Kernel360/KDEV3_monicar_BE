@@ -1,5 +1,12 @@
 package org.emulator.device.infrastructure.external.command;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
+
+import lombok.Builder;
+
+import org.emulator.device.domain.CycleInfo;
 import org.emulator.device.domain.GpsStatus;
 
 /**
@@ -14,8 +21,9 @@ import org.emulator.device.domain.GpsStatus;
  * @param sum  누적 주행 거리 - 차량의 현재 총 주행 거리 (범위: 0 ~ 9999999, 단위: m)
  * @param bat  배터리 전압 - 배터리 전압 * 10 (범위: 0 ~ 9999, 단위: V)
  */
+@Builder
 public record CycleInfoCommand(
-	String intervalAt,
+	@JsonFormat(pattern = "yyyyMMddHHmmss") LocalDateTime intervalAt,
 	GpsStatus gcd,
 	long lat,
 	long lon,
@@ -24,5 +32,15 @@ public record CycleInfoCommand(
 	int sum,
 	int bat
 ) {
-
+	public static CycleInfoCommand from(CycleInfo cycleInfo) {
+		return CycleInfoCommand.builder()
+			.intervalAt(cycleInfo.getIntervalAt())
+			.gcd(cycleInfo.getGpsStatus())
+			.lat(cycleInfo.getGeo().getLatitude())
+			.lon(cycleInfo.getGeo().getLongitude())
+			.ang(cycleInfo.getDirection().getValue())
+			.spd(cycleInfo.getSpeed().getValue())
+			.sum(cycleInfo.getTotalDistance().getValue())
+			.build();
+	}
 }

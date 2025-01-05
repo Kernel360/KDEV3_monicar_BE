@@ -3,15 +3,15 @@ package org.emulator.device.infrastructure.external;
 import java.io.InputStream;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
+
 import org.common.dto.CommonResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class RestClientService {
 	private final Map<UrlPathEnum, RestClient> restClients;

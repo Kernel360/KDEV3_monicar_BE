@@ -3,7 +3,7 @@ package org.emulator.device.infrastructure;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import org.emulator.device.application.port.LocationReceiver;
 import org.emulator.pipe.Gps;
@@ -11,7 +11,7 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Component
 public class GpsPipeQueueReceiver implements LocationReceiver {
 	private final ConcurrentLinkedQueue<Gps> gpsPipeQueue;

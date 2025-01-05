@@ -2,46 +2,42 @@ package org.emulator.device.domain;
 
 import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
+import org.emulator.device.VehicleConstant;
+import org.emulator.device.infrastructure.GpsTime;
+import org.emulator.device.infrastructure.external.command.vo.Direction;
+import org.emulator.device.infrastructure.external.command.vo.Geo;
+import org.emulator.device.infrastructure.external.command.vo.Speed;
+import org.emulator.device.infrastructure.external.command.vo.TotalDistance;
+
 import lombok.Builder;
 import lombok.Getter;
-
-import org.emulator.device.VehicleConstant;
 
 @Builder
 @Getter
 public class CycleInfo {
 	private LocalDateTime intervalAt;
 	private GpsStatus gpsStatus;
-	private long latitude;
-	private long longitude;
-	private int direction;
-	private int speed;
-	private int totalDistance;
+	private Geo geo;
+	private Direction direction;
+	private Speed speed;
+	private TotalDistance totalDistance;
 	private int battery;
 
 	public static CycleInfo create(
-		LocalDateTime intervalAt,
+		GpsTime gpsTime,
 		GpsStatus gpsStatus,
-		double latitude,
-		double longitude,
 		int direction,
 		int speed,
-		int totalDistance,
-		int battery
+		int totalDistance
 	) {
-		long lat = (long)(latitude * VehicleConstant.MIL);
-		long lon = (long)(longitude * VehicleConstant.MIL);
-
 		return CycleInfo.builder()
-			.intervalAt(intervalAt)
+			.intervalAt(gpsTime.intervalAt())
 			.gpsStatus(gpsStatus)
-			.latitude(lat)
-			.longitude(lon)
-			.direction(direction)
-			.speed(speed)
-			.totalDistance(totalDistance)
-			.battery(battery)
+			.geo(new Geo(gpsTime.location().lat(), gpsTime.location().lon()))
+			.direction(new Direction(direction))
+			.speed(new Speed(speed))
+			.totalDistance(new TotalDistance(totalDistance))
+			.battery(VehicleConstant.BATTERY)
 			.build();
 	}
 }
