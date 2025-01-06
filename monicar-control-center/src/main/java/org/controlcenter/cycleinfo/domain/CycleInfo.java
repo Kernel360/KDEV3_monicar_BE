@@ -1,4 +1,4 @@
-package org.controlcenter.geoinfo.domain;
+package org.controlcenter.cycleinfo.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

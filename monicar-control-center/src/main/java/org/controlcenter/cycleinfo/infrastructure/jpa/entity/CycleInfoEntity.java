@@ -1,11 +1,11 @@
-package org.controlcenter.geoinfo.infrastructure.jpa.entity;
+package org.controlcenter.cycleinfo.infrastructure.jpa.entity;
 
 import java.io.Serial;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import org.controlcenter.geoinfo.domain.CycleInfo;
-import org.controlcenter.geoinfo.domain.GpsStatus;
+import org.controlcenter.cycleinfo.domain.CycleInfo;
+import org.controlcenter.cycleinfo.domain.GpsStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

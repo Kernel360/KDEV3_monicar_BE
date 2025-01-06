@@ -1,6 +1,6 @@
-package org.controlcenter.geoinfo.infrastructure.jpa;
+package org.controlcenter.cycleinfo.infrastructure.jpa;
 
-import org.controlcenter.geoinfo.infrastructure.jpa.entity.CycleInfoEntity;
+import org.controlcenter.cycleinfo.infrastructure.jpa.entity.CycleInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CycleInfoJpaRepository extends JpaRepository<CycleInfoEntity, Long> {

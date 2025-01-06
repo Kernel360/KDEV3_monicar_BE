@@ -1,4 +1,4 @@
-package org.controlcenter.geoinfo.domain;
+package org.controlcenter.cycleinfo.domain;
 
 public enum GpsStatus {
 	A("정상"),
