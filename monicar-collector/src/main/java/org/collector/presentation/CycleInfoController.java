@@ -22,8 +22,8 @@ public class CycleInfoController {
 
 	@PostMapping
 	public CommonResponse<Void> cycleInfoSave(final @Valid @RequestBody CycleInfoRequest request) {
-		cycleInfoProducer.sendMessage(request);
 		long mdn = cycleInfoService.cycleInfoSave(request);
+		cycleInfoProducer.sendMessage(request);
 		return CommonResponse.ok(mdn);
 	}
 }
