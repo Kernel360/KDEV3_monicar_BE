@@ -52,7 +52,7 @@ public class CycleInfo implements Serializable {
 	@JoinColumn(name = "vehicle_id")
 	private VehicleInformation vehicleInformation;
 
-	public static BigDecimal convertToSixDecimalPlaces(Double value) {
+	public static BigDecimal convertToSixDecimalPlaces(Long value) {
 		return BigDecimal.valueOf(value / 1000000.0);
 	}
 }
