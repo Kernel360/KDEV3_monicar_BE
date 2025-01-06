@@ -3,7 +3,7 @@ package org.collector.presentation.dto;
 import java.time.LocalDateTime;
 
 import org.collector.domain.CycleInfo;
-import org.collector.domain.Vehicle;
+import org.collector.domain.VehicleInformation;
 import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -42,7 +42,7 @@ public record CListRequest(
 	@Range(min = 0, max = 9999, message = "배터리 전압은 0 ~ 9999 사이여야 합니다.")
 	Integer bat
 ) {
-	public static CycleInfo from(CListRequest request, Vehicle vehicle) {
+	public static CycleInfo from(CListRequest request, VehicleInformation vehicleInformation) {
 		return CycleInfo.builder()
 			.interval_at(request.interval_at())
 			.gcd(request.gcd())
@@ -52,7 +52,7 @@ public record CListRequest(
 			.spd(request.spd())
 			.sum(request.sum())
 			.bat(request.bat())
-			.vehicle(vehicle)
+			.vehicleInformation(vehicleInformation)
 			.build();
 	}
 }

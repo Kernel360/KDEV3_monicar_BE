@@ -92,7 +92,7 @@ services:
     image: 'provectuslabs/kafka-ui:v0.7.1'
     container_name: kafka-ui
     ports:
-      - "8081:8080"
+      - "9091:8080"
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka1:19092,kafka2:19092,kafka3:19092

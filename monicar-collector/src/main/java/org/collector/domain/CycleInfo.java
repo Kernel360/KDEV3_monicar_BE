@@ -51,7 +51,7 @@ public class CycleInfo implements Serializable {
 	private int bat;
 	@ManyToOne
 	@JoinColumn(name = "vehicle_id")
-	private Vehicle vehicle;
+	private VehicleInformation vehicleInformation;
 
 	public static BigDecimal convertToSixDecimalPlaces(Integer value) {
 		if (value == null) {
