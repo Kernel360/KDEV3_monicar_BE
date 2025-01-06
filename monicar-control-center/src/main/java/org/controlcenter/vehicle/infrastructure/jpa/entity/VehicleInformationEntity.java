@@ -29,7 +29,7 @@ public class VehicleInformationEntity {
 
 	private String vehicleNumber;
 
-	private String mdn;
+	private Long mdn;
 
 	private String tid;
 
