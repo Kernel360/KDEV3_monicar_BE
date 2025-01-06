@@ -3,7 +3,7 @@ package org.collector.application;
 import java.util.List;
 
 import org.collector.domain.CycleInfo;
-import org.collector.domain.Vehicle;
+import org.collector.domain.VehicleInformation;
 import org.collector.infrastructure.repository.CycleInfoRepository;
 import org.collector.infrastructure.repository.VehicleRepository;
 import org.collector.presentation.dto.CListRequest;
@@ -21,18 +21,18 @@ public class CycleInfoService {
 
 	@Transactional
 	public long cycleInfoSave(final CycleInfoRequest request) {
-		Vehicle vehicle = vehicleRepository.findByMdn(request.mdn())
+		VehicleInformation vehicleInformation = vehicleRepository.findByMdn(request.mdn())
 				.orElseThrow(IllegalArgumentException::new);
 
 		CycleInfoRequest.from(request);
 
-		vehicleRepository.save(vehicle);
+		vehicleRepository.save(vehicleInformation);
 
 		List<CycleInfo> cycleInfos = request.cList().stream()
-			.map(cListRequest -> CListRequest.from(cListRequest, vehicle))
+			.map(cListRequest -> CListRequest.from(cListRequest, vehicleInformation))
 			.toList();
 
 		cycleInfoRepository.saveAll(cycleInfos);
-		return vehicle.getMdn();
+		return vehicleInformation.getMdn();
 	}
 }

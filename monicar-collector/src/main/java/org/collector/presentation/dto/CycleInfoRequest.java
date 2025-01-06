@@ -3,7 +3,7 @@ package org.collector.presentation.dto;
 import java.util.List;
 
 import org.collector.common.annotation.MatchCycleSize;
-import org.collector.domain.Vehicle;
+import org.collector.domain.VehicleInformation;
 import org.hibernate.validator.constraints.Range;
 
 import jakarta.validation.Valid;
@@ -34,8 +34,8 @@ public record CycleInfoRequest(
 	@Valid
 	List<CListRequest> cList
 ) {
-	public static Vehicle from(CycleInfoRequest request) {
-		return Vehicle.builder()
+	public static VehicleInformation from(CycleInfoRequest request) {
+		return VehicleInformation.builder()
 			.mdn(request.mdn())
 			.tid(request.tid())
 			.mid(request.mid())
