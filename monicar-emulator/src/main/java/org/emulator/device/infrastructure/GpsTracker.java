@@ -6,11 +6,13 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.emulator.device.application.port.CycleInfoEventPublisher;
 import org.emulator.device.application.port.EmulatorRepository;
 import org.emulator.device.application.port.LocationReceiver;
 import org.emulator.device.application.port.TransmissionTimeProvider;
 import org.emulator.device.domain.CycleInfo;
 import org.emulator.device.domain.GpsStatus;
+import org.emulator.device.infrastructure.external.command.CycleInfoListCommand;
 import org.emulator.device.infrastructure.util.Calculator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,8 @@ public class GpsTracker implements SensorTracker {
 	private final EmulatorRepository emulatorRepository;
 	private final TransmissionTimeProvider timeProvider;
 	private final ApplicationCycleInfoEventPublisher applicationEventPublisher;
+	private final CycleInfoEventPublisher cycleInfoEventPublisher;
+
 
 	private final Deque<CycleInfo> cycleInfos = new LinkedList<>();
 	private CycleInfo recentCycleInfo;
@@ -37,9 +41,9 @@ public class GpsTracker implements SensorTracker {
 
 		if (cycleInfos.size() > time) {
 			List<CycleInfo> cycleInfoList = pollFromDeque(time);
-			applicationEventPublisher.publishEvent(cycleInfoList);
 
-			log.info("[Thread: {}] {}", Thread.currentThread().getName(), "sending!");
+			CycleInfoListCommand message = CycleInfoListCommand.from(cycleInfoList);
+			cycleInfoEventPublisher.publishEvent(message);
 		}
 
 		GpsTime currentLocation = locationReceiver.getLocation();
