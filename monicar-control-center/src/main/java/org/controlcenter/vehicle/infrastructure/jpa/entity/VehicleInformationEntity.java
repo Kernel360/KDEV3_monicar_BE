@@ -27,7 +27,7 @@ public class VehicleInformationEntity {
 
 	private Long vehicleTypeId;
 
-	private String mdn;
+	private Long mdn;
 
 	private String tid;
 

@@ -10,7 +10,7 @@ import lombok.Getter;
 public class VehicleInformation {
 	private Long id;
 	private Long vehicleTypeId;
-	private String mdn;
+	private Long mdn;
 	private String tid;
 	private Integer mid;
 	private Integer pv;

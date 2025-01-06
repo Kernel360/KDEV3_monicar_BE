@@ -70,7 +70,7 @@ CREATE TABLE vehicle_information
 (
     `vehicle_id`      BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '차량 PK',
     `vehicle_type_id` BIGINT       NOT NULL COMMENT '차종 PK',
-    `mdn`             VARCHAR(255) NOT NULL COMMENT '차량번호',
+    `mdn`             BIGINT NOT NULL COMMENT '차량번호',
     `tid`             VARCHAR(100) NOT NULL COMMENT '터미널 아이디',
     `mid`             INT          NOT NULL COMMENT '제조사 아이디',
     `pv`              INT          NOT NULL COMMENT '패킷버전',
