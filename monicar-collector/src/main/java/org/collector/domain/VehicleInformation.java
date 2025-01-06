@@ -3,6 +3,8 @@ package org.collector.domain;
 import java.io.Serial;
 import java.io.Serializable;
 
+import org.collector.presentation.dto.CycleInfoRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,4 +34,14 @@ public class VehicleInformation implements Serializable {
 	private int pv;
 	private long did;
 	private String dFWVer;
+
+	public static VehicleInformation from(CycleInfoRequest request) {
+		return VehicleInformation.builder()
+			.mdn(request.mdn())
+			.tid(request.tid())
+			.mid(request.mid())
+			.pv(request.pv())
+			.did(request.did())
+			.build();
+	}
 }

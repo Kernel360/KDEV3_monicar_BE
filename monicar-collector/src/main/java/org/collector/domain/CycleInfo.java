@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.collector.presentation.dto.CListRequest;
 import org.collector.presentation.dto.GCD;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -54,5 +55,19 @@ public class CycleInfo implements Serializable {
 
 	public static BigDecimal convertToSixDecimalPlaces(Long value) {
 		return BigDecimal.valueOf(value / 1000000.0);
+	}
+
+	public static CycleInfo from(CListRequest request, VehicleInformation vehicleInformation) {
+		return CycleInfo.builder()
+			.interval_at(request.interval_at())
+			.gcd(request.gcd())
+			.lat(CycleInfo.convertToSixDecimalPlaces(request.lat()))
+			.lon(CycleInfo.convertToSixDecimalPlaces(request.lon()))
+			.ang(request.ang())
+			.spd(request.spd())
+			.sum(request.sum())
+			.bat(request.bat())
+			.vehicleInformation(vehicleInformation)
+			.build();
 	}
 }
