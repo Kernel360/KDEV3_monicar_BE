@@ -25,7 +25,8 @@ public enum ResponseCode {
 	DECRYPTION_ERROR("303", "Decryption error"),
 	MISMATCHED_MDN("304", "Mismatched MDN"),
 	DATA_PROCESSING_ERROR("400", "An error occured while processing data"),
-	UNDEFINED_ERROR("500", "An Undefined error has occurred");
+	UNDEFINED_ERROR("500", "An Undefined error has occurred"),
+	ENTITY_NOT_FOUND("500", "Entity not found");
 
 	private final String code;
 	private final String message;
