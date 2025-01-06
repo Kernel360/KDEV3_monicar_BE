@@ -3,6 +3,7 @@ package org.collector.presentation;
 import org.collector.application.CycleInfoService;
 import org.collector.common.response.CommonResponse;
 import org.collector.presentation.dto.CycleInfoRequest;
+import org.collector.producer.CycleInfoProducer;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +17,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CycleInfoController {
 
+	private final CycleInfoProducer cycleInfoProducer;
 	private final CycleInfoService cycleInfoService;
 
 	@PostMapping
 	public CommonResponse<Void> cycleInfoSave(final @Valid @RequestBody CycleInfoRequest request) {
-		cycleInfoService.cycleInfoSave(request);
-		return CommonResponse.ok("111");
+		cycleInfoProducer.sendMessage(request);
+		long mdn = cycleInfoService.cycleInfoSave(request);
+		return CommonResponse.ok(mdn);
 	}
 }

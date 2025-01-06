@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Vehicle implements Serializable {
+public class VehicleInformation implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 	@Id
