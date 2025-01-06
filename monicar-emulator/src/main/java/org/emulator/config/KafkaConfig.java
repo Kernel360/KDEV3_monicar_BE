@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.emulator.device.infrastructure.external.command.CycleInfoListCommand;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,7 @@ public class KafkaConfig {
 	}
 
 	@Bean
-	public ProducerFactory<String, Object> producerFactory(KafkaProperties kafkaProperties) {
+	public ProducerFactory<String, CycleInfoListCommand> producerFactory(KafkaProperties kafkaProperties) {
 		Map<String, Object> props = new HashMap<>();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProperties.getProducer().getKeySerializer());
@@ -33,7 +34,7 @@ public class KafkaConfig {
 	}
 
 	@Bean
-	public KafkaTemplate<String, Object> kafkaTemplate(KafkaProperties kafkaProperties) {
+	public KafkaTemplate<String, CycleInfoListCommand> kafkaTemplate(KafkaProperties kafkaProperties) {
 		return new KafkaTemplate<>(producerFactory(kafkaProperties));
 	}
 }
