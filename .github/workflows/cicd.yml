@@ -61,7 +61,7 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
-      - name: Build and Deploy
+      - name: Build and Image Deploy to DockHub
         if: success()
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
