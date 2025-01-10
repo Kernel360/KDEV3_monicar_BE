@@ -27,15 +27,6 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
 
-      - name: Set up environment variables
-        run: |
-          echo DEV_MYSQL_ROOT_PASSWORD=${{ secrets.DEV_MYSQL_ROOT_PASSWORD }} >> .env
-          echo DEV_MYSQL_DATABASE_NAME=${{ secrets.DEV_MYSQL_DATABASE_NAME }} >> .env
-          echo DEV_MYSQL_USER=${{ secrets.DEV_MYSQL_USER }} >> .env
-          echo DEV_MYSQL_PASSWORD=${{ secrets.DEV_MYSQL_PASSWORD }} >> .env
-          echo DEV_MYSQL_URL=${{ secrets.DEV_MYSQL_URL }} >> .env
-          echo DEV_MYSQL_TIME_ZONE=${{ secrets.DEV_MYSQL_TIME_ZONE }} >> .env
-
       - uses: actions/checkout@v3
       - name: make collector application-dev.yml
         run: |
@@ -94,18 +85,18 @@ jobs:
             sudo docker pull suxxxxhyun/monicar-collector:latest
             sudo docker run -d --name monicar-collector -p 8080:8080 suxxxxhyun/monicar-collector:latest
 
-      - name: Connect to WAS & Execute Application (monicar-control-center)
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.EC2_CONTROL_CENTER_HOST }}
-          username: ${{ secrets.EC2_CONTROL_CENTER_USER }}
-          key: ${{ secrets.EC2_CONTROL_CENTER_PRIVATE_KEY }}
-          script: |
-            echo "Pulling and running monicar-control-center image on control-center EC2..."
-            sudo docker stop $(sudo docker ps -a -q)
-            sudo docker rm $(sudo docker ps -a -q)
-            sudo docker rmi $(sudo docker images -q)
-            sudo docker pull suxxxxhyun/monicar-control-center:latest
-            sudo docker run -d --name monicar-control-center -p 8081:8080 suxxxxhyun/monicar-control-center:latest
+#      - name: Connect to WAS & Execute Application (monicar-control-center)
+#        uses: appleboy/ssh-action@v0.1.6
+#        with:
+#          host: ${{ secrets.EC2_CONTROL_CENTER_HOST }}
+#          username: ${{ secrets.EC2_CONTROL_CENTER_USER }}
+#          key: ${{ secrets.EC2_CONTROL_CENTER_PRIVATE_KEY }}
+#          script: |
+#            echo "Pulling and running monicar-control-center image on control-center EC2..."
+#            sudo docker stop $(sudo docker ps -a -q)
+#            sudo docker rm $(sudo docker ps -a -q)
+#            sudo docker rmi $(sudo docker images -q)
+#            sudo docker pull suxxxxhyun/monicar-control-center:latest
+#            sudo docker run -d --name monicar-control-center -p 8081:8080 suxxxxhyun/monicar-control-center:latest
 
 
