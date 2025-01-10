@@ -1,0 +1,111 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - "develop"
+    paths:
+      - 'monicar-collector/**'
+      - 'monicar-control-center/**'
+  pull_request:
+    branches:
+      - "develop"
+    paths:
+      - 'monicar-collector/**'
+      - 'monicar-control-center/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: Set up environment variables
+        run: |
+          echo DEV_MYSQL_ROOT_PASSWORD=${{ secrets.DEV_MYSQL_ROOT_PASSWORD }} >> .env
+          echo DEV_MYSQL_DATABASE_NAME=${{ secrets.DEV_MYSQL_DATABASE_NAME }} >> .env
+          echo DEV_MYSQL_USER=${{ secrets.DEV_MYSQL_USER }} >> .env
+          echo DEV_MYSQL_PASSWORD=${{ secrets.DEV_MYSQL_PASSWORD }} >> .env
+          echo DEV_MYSQL_URL=${{ secrets.DEV_MYSQL_URL }} >> .env
+          echo DEV_MYSQL_TIME_ZONE=${{ secrets.DEV_MYSQL_TIME_ZONE }} >> .env
+
+      - uses: actions/checkout@v3
+      - name: make collector application-dev.yml
+        if: contains(github.ref, 'develop')
+        run: |
+          cd monicar-collector/src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.MONICAR_COLLECTOR_YML }}" > ./application.yml
+        shell: bash
+
+      - uses: actions/checkout@v3
+      - name: make control-center application-dev.yml
+        if: contains(github.ref, 'develop')
+        run: |
+          cd monicar-control-center/src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.MONICAR_CONTROL_CENTER_YML }}" > ./application.yml
+        shell: bash
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
+
+      - name: Build and Deploy
+        if: success()
+        run: |
+          sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          
+          cd ./monicar-collector
+          sudo docker build -t monicar-collector .
+          IMAGE_TAG=suxxxxhyun/monicar-collector:latest
+          echo "Image Tag: $IMAGE_TAG"
+          sudo docker tag monicar-collector $IMAGE_TAG
+          sudo docker push $IMAGE_TAG
+
+          cd ../monicar-control-center
+          sudo docker build -t monicar-control-center .
+          IMAGE_TAG=suxxxxhyun/monicar-control-center:latest
+          echo "Image Tag: $IMAGE_TAG"
+          sudo docker tag monicar-control-center $IMAGE_TAG
+          sudo docker push $IMAGE_TAG
+
+      - name: Connect to WAS & Execute Application (monicar-collector)
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_COLLECTOR_HOST }}
+          username: ${{ secrets.EC2_COLLECTOR_USER }}
+          key: ${{ secrets.EC2_COLLECTOR_PRIVATE_KEY }}
+          script: |
+            echo "Pulling and running monicar-collector image on collector EC2..."
+            sudo docker pull suxxxxhyun/monicar-collector:latest
+            sudo docker stop monicar-collector || true
+            sudo docker rm monicar-collector || true
+            sudo docker run -d --name monicar-collector -p 8080:8080 suxxxxhyun/monicar-collector:latest
+
+      - name: Connect to WAS & Execute Application (monicar-control-center)
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_CONTROL_CENTER_HOST }}
+          username: ${{ secrets.EC2_CONTROL_CENTER_USER }}
+          key: ${{ secrets.EC2_CONTROL_CENTER_PRIVATE_KEY }}
+          script: |
+            echo "Pulling and running monicar-control-center image on control-center EC2..."
+            sudo docker pull suxxxxhyun/monicar-control-center:latest
+            sudo docker stop monicar-control-center || true
+            sudo docker rm monicar-control-center || true
+            sudo docker run -d --name monicar-control-center -p 8081:8080 suxxxxhyun/monicar-control-center:latest
+
+
