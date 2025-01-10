@@ -88,8 +88,8 @@ jobs:
           key: ${{ secrets.EC2_COLLECTOR_PRIVATE_KEY }}
           script: |
             echo "Pulling and running monicar-collector image on collector EC2..."
-            sudo docker stop $(docker ps -a -q) 
-            sudo docker rm $(docker ps -a -q) 
+            sudo docker stop $(sudo docker ps -a -q)
+            sudo docker rm $(sudo docker ps -a -q)
             sudo docker pull suxxxxhyun/monicar-collector:latest
             sudo docker run -d --name monicar-collector -p 8080:8080 suxxxxhyun/monicar-collector:latest
 
@@ -101,8 +101,8 @@ jobs:
           key: ${{ secrets.EC2_CONTROL_CENTER_PRIVATE_KEY }}
           script: |
             echo "Pulling and running monicar-control-center image on control-center EC2..."
-            sudo docker stop $(docker ps -a -q) 
-            sudo docker rm $(docker ps -a -q) 
+            sudo docker stop $(sudo docker ps -a -q)
+            sudo docker rm $(sudo docker ps -a -q)
             sudo docker pull suxxxxhyun/monicar-control-center:latest
             sudo docker run -d --name monicar-control-center -p 8081:8080 suxxxxhyun/monicar-control-center:latest
 
