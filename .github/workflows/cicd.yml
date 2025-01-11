@@ -50,7 +50,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build -x test
+        run: ./gradlew clean build -x test
 
       - name: Build and Image Deploy to DockHub
         if: success()
