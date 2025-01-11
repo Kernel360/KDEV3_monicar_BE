@@ -19,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Logging
+        run: |
+          echo "${{toJSON(github.event)}}"
+
       - uses: actions/checkout@v3
 
       - name: Set up JDK 21
@@ -85,6 +89,8 @@ jobs:
             sudo docker pull suxxxxhyun/monicar-collector:latest
             sudo docker run -d --name monicar-collector -p 8080:8080 suxxxxhyun/monicar-collector:latest
 
+
+  sudo docker run --rm --name monicar-collector -it --entrypoint bash -p 8080:8080 suxxxxhyun/monicar-collector:latest
       - name: Connect to WAS & Execute Application (monicar-control-center)
         uses: appleboy/ssh-action@v0.1.6
         with:
