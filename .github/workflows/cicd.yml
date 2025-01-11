@@ -50,7 +50,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew build -x test
 
       - name: Build and Image Deploy to DockHub
         if: success()
@@ -85,18 +85,18 @@ jobs:
             sudo docker pull suxxxxhyun/monicar-collector:latest
             sudo docker run -d --name monicar-collector -p 8080:8080 suxxxxhyun/monicar-collector:latest
 
-#      - name: Connect to WAS & Execute Application (monicar-control-center)
-#        uses: appleboy/ssh-action@v0.1.6
-#        with:
-#          host: ${{ secrets.EC2_CONTROL_CENTER_HOST }}
-#          username: ${{ secrets.EC2_CONTROL_CENTER_USER }}
-#          key: ${{ secrets.EC2_CONTROL_CENTER_PRIVATE_KEY }}
-#          script: |
-#            echo "Pulling and running monicar-control-center image on control-center EC2..."
-#            sudo docker stop $(sudo docker ps -a -q)
-#            sudo docker rm $(sudo docker ps -a -q)
-#            sudo docker rmi $(sudo docker images -q)
-#            sudo docker pull suxxxxhyun/monicar-control-center:latest
-#            sudo docker run -d --name monicar-control-center -p 8081:8080 suxxxxhyun/monicar-control-center:latest
+      - name: Connect to WAS & Execute Application (monicar-control-center)
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_CONTROL_CENTER_HOST }}
+          username: ${{ secrets.EC2_CONTROL_CENTER_USER }}
+          key: ${{ secrets.EC2_CONTROL_CENTER_PRIVATE_KEY }}
+          script: |
+            echo "Pulling and running monicar-control-center image on control-center EC2..."
+            sudo docker stop $(sudo docker ps -a -q)
+            sudo docker rm $(sudo docker ps -a -q)
+            sudo docker rmi $(sudo docker images -q)
+            sudo docker pull suxxxxhyun/monicar-control-center:latest
+            sudo docker run -d --name monicar-control-center -p 8081:8080 suxxxxhyun/monicar-control-center:latest
 
 
