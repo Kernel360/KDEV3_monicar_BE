@@ -28,7 +28,7 @@ jobs:
           distribution: 'corretto'
 
       - uses: actions/checkout@v3
-      - name: make collector application-dev.yml
+      - name: make collector application-prod.yml
         run: |
           cd monicar-collector/src/main/resources
           touch ./application.yml
@@ -36,7 +36,7 @@ jobs:
         shell: bash
 
       - uses: actions/checkout@v3
-      - name: make control-center application-dev.yml
+      - name: make control-center application-prod.yml
         run: |
           cd monicar-control-center/src/main/resources
           touch ./application.yml
