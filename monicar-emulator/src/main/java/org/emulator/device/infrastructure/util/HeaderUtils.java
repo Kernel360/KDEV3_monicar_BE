@@ -31,7 +31,6 @@ public final class HeaderUtils {
 			switch (headerName) {
 				case TIMESTAMP -> headers.put(headerName.getName(), RequestUtils.getCurrentTimestamp());
 				case TUID -> headers.put(headerName.getName(), RequestUtils.generateTUID());
-				case TOKEN -> headers.put(headerName.getName(), "my-vehicle-token");
 
 				default -> throw new BusinessException(ErrorCode.UNSUPPORTED_HEADER);
 			}
