@@ -1,4 +1,4 @@
-package org.eventhub.dto;
+package org.eventhub.common;
 
 import org.eventhub.common.constant.VehicleConstant;
 

@@ -1,11 +1,7 @@
 package org.emulator.device.infrastructure.external;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.io.InputStream;
 import java.util.Map;
-
-import lombok.RequiredArgsConstructor;
 
 import org.common.dto.CommonResponse;
 import org.emulator.device.infrastructure.util.HeaderName;
@@ -13,20 +9,18 @@ import org.emulator.device.infrastructure.util.HeaderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class RestClientService {
-	private final Map<UrlPathEnum, RestClient> restClients;
+	private final RestClient restClient;
 	private final ObjectMapper objectMapper;
 
-	public RestClient getRestClient(UrlPathEnum path) {
-		return restClients.get(path);
-	}
-
 	public CommonResponse post(
-		RestClient restClient,
 		String endPoint,
 		Object body
 	) {

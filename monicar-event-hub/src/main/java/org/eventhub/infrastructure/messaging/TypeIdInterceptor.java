@@ -1,4 +1,4 @@
-package org.eventhub.producer;
+package org.eventhub.infrastructure.messaging;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

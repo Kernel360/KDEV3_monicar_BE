@@ -1,4 +1,4 @@
-package org.eventhub.dto;
+package org.eventhub.infrastructure.messaging.command;
 
 import java.util.List;
 

@@ -1,13 +1,13 @@
-package org.controlcenter.vehicle.presentation.dto;
+package org.eventhub.presentation;
+
+import java.math.BigDecimal;
+
+import org.eventhub.domain.GpsStatus;
+import org.eventhub.domain.VehicleEventCreate;
+import org.eventhub.domain.VehicleEventType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-import org.controlcenter.cycleinfo.domain.GpsStatus;
-import org.controlcenter.vehicle.domain.VehicleEventCreate;
-import org.controlcenter.vehicle.domain.VehicleEventType;
-
-import java.math.BigDecimal;
 
 public record KeyOnRequest(
 		@NotNull(message = "차량 번호는 비어 있을 수 없습니다.")

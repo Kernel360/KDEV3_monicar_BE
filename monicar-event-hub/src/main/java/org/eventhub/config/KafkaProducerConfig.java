@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.eventhub.producer.TypeIdInterceptor;
+
+import org.eventhub.infrastructure.messaging.TypeIdInterceptor;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 
 
 @Configuration
-public class KafkaConfig {
+public class KafkaProducerConfig {
 
 	@Bean
 	@Primary

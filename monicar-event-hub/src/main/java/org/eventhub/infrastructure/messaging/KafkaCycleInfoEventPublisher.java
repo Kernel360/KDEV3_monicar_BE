@@ -1,6 +1,6 @@
-package org.eventhub.producer;
+package org.eventhub.infrastructure.messaging;
 
-import org.eventhub.dto.CycleInfoListCommand;
+import org.eventhub.infrastructure.messaging.command.CycleInfoListCommand;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

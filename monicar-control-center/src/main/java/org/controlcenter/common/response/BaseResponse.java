@@ -3,15 +3,12 @@ package org.controlcenter.common.response;
 import java.util.List;
 
 import org.controlcenter.common.response.code.ErrorCode;
-import org.controlcenter.common.response.code.ResponseCode;
 import org.controlcenter.common.response.code.SuccessCode;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Builder;
 import lombok.Getter;
-
-import org.controlcenter.vehicle.presentation.dto.CommonResponse;
 
 /**
  * API 요청에 대한 응답 표준화 클래스
@@ -63,26 +60,6 @@ public class BaseResponse<T> {
 
 	public static BaseResponse<Void> success() {
 		return success(SuccessCode.OK);
-	}
-
-	public static BaseResponse<CommonResponse> emulatorSuccess(Long mdn) {
-		return BaseResponse.<CommonResponse>builder()
-			.isSuccess(true)
-			.result(new CommonResponse(
-				ResponseCode.WRONG_APPROACH.getCode(),
-				ResponseCode.WRONG_APPROACH.getMessage(),
-				mdn.toString()))
-			.build();
-	}
-
-	public static BaseResponse<CommonResponse> emulatorFail(ResponseCode errorCode, Long mdn) {
-		return BaseResponse.<CommonResponse>builder()
-			.isSuccess(true)
-			.result(new CommonResponse(
-				errorCode.getCode(),
-				errorCode.getMessage(),
-				mdn.toString()))
-			.build();
 	}
 
 	public static <T> BaseResponse<T> fail(ErrorCode code) {

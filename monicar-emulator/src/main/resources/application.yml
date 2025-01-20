@@ -19,3 +19,9 @@ logging:
         hc:
           client5:
             http=DEBUG:
+
+api:
+  protocol: http
+  host: localhost
+  port: 8082
+  server: event-hub
