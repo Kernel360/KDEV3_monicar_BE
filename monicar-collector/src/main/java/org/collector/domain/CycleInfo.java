@@ -45,8 +45,8 @@ public class CycleInfo implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private GCD status;
 
-	private BigDecimal lat;
-	private BigDecimal lng;
+	private int lat;
+	private int lng;
 	private int ang;
 	private int spd;
 
@@ -61,8 +61,8 @@ public class CycleInfo implements Serializable {
 		return CycleInfo.builder()
 			.intervalAt(request.intervalAt())
 			.status(request.gcd())
-			.lat(BigDecimal.valueOf(request.lat()))
-			.lng(BigDecimal.valueOf(request.lng()))
+			.lat(request.lat())
+			.lng(request.lng())
 			.ang(request.ang())
 			.spd(request.spd())
 			.vehicleInformation(vehicleInformation)

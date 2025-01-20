@@ -5,6 +5,20 @@ spring:
   application:
     name: monicar-event-hub
 
+  datasource:
+    url: jdbc:mysql://localhost:3306/monicar_db
+    username: local_user
+    password: local_password
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
   kafka:
     bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
     producer:

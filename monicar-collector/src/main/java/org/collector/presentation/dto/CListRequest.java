@@ -18,11 +18,11 @@ public record CListRequest(
 
 	@NotNull(message = "GPS 위도는 필수 입력값입니다.")
 	@Range(min = -90000000, max = 90000000, message = "유효하지 않은 위도 값입니다. (-90.0 ~ 90.0 범위)")
-	Long lat,
+	Integer lat,
 
 	@NotNull(message = "GPS 경도는 필수 입력값입니다.")
 	@Range(min = -180000000, max = 180000000, message = "유효하지 않은 경도 값입니다. (-180.0 ~ 180.0 범위)")
-	Long lng,
+	Integer lng,
 
 	@Range(min = 0, max = 365, message = "방향은 0 ~ 365 사이여야 합니다.")
 	@NotNull(message = "방향은 필수 입력값입니다.")

@@ -1,3 +1,0 @@
-### Send POST request with json body
-POST http://localhost:8090/api/v1/emulator/key-on
-Content-Type: application/json
