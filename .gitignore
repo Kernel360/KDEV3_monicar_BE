@@ -42,7 +42,6 @@ application-prod.yml
 
 ### 환경설정 파일
 .env
-env.properties
 
 ### 도커 volumes 파일
 /docker/volumes

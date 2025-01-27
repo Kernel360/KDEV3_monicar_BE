@@ -32,15 +32,6 @@ jobs:
           echo "${{ secrets.MONICAR_COLLECTOR_YML }}"
         shell: bash
 
-      - name: make control-center env.properties
-        run: |
-          mkdir monicar-control-center/src/main/resources/properties
-          cd monicar-control-center/src/main/resources/properties
-          touch ./env.properties
-          echo "${{ secrets.MONICAR_CONTROL_CENTER_ENV }}" > ./env.properties
-          echo "${{ secrets.MONICAR_CONTROL_CENTER_ENV }}"
-        shell: bash
-
       - name: make control-center application-prod.yml
         run: |
           cd monicar-control-center/src/main/resources
@@ -81,7 +72,7 @@ jobs:
           cd ../monicar-control-center
           sudo docker build --platform linux/amd64 -t monicar-control-center .
           IMAGE_TAG=suxxxxhyun/monicar-control-center:latest
-#          echo "Image Tag: $IMAGE_TAG"
+          echo "Image Tag: $IMAGE_TAG"
           sudo docker tag monicar-control-center $IMAGE_TAG
           sudo docker push $IMAGE_TAG
 #
