@@ -14,7 +14,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,15 +39,14 @@ public class VehicleInformation implements Serializable {
 	@Column(name = "vehicle_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "company_id")
 	private Company company;
-
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "vehicle_type_id")
 	private VehicleType vehicleType;
-
 	private String vehicleNumber;
+	@Column(unique = true)
 	private Long mdn;
 	private String tid;
 	private Long mid;
