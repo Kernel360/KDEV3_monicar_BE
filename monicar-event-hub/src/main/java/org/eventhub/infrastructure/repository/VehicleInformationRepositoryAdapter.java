@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.eventhub.application.port.VehicleRepository;
 import org.eventhub.domain.VehicleInformation;
 import org.eventhub.domain.UpdateTotalDistance;
+import org.eventhub.domain.VehicleStatus;
 import org.eventhub.infrastructure.repository.jpa.entity.QVehicleInformationEntity;
 import org.eventhub.infrastructure.repository.jpa.entity.VehicleInformationEntity;
 import org.eventhub.infrastructure.repository.jpa.VehicleInformationJpaRepository;
@@ -33,6 +34,21 @@ public class VehicleInformationRepositoryAdapter implements VehicleRepository {
 	public Optional<VehicleInformation> findByMdn(Long mdn) {
 		return vehicleInformationJpaRepository.findByMdn(mdn)
 			.map(VehicleInformationEntity::toDomain);
+	}
+
+	@Override
+	public VehicleStatus updateVehicleStatus(Long vehicleId, VehicleStatus vehicleStatus) {
+		QVehicleInformationEntity vehicleInfo = QVehicleInformationEntity.vehicleInformationEntity;
+
+		jpaQueryFactory.update(vehicleInfo)
+			.set(vehicleInfo.status, vehicleStatus)
+			.where(vehicleInfo.id.eq(vehicleId))
+			.execute();
+
+		return jpaQueryFactory.select(vehicleInfo.status)
+			.from(vehicleInfo)
+			.where(vehicleInfo.id.eq(vehicleId))
+			.fetchOne();
 	}
 
 	@Override

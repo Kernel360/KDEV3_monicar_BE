@@ -5,6 +5,7 @@ import org.eventhub.common.exception.BusinessException;
 import org.eventhub.common.response.ErrorCode;
 import org.eventhub.domain.VehicleInformation;
 import org.eventhub.domain.UpdateTotalDistance;
+import org.eventhub.domain.VehicleStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,12 @@ public class VehicleService {
 
 	}
 
+	@Transactional
+	public VehicleStatus updateVehicleStatus(Long vehicleId, VehicleStatus status) {
+		return vehicleRepository.updateVehicleStatus(vehicleId, status);
+	}
+
+	@Transactional
 	public Long updateTotalDistance(UpdateTotalDistance updateTotalDistanceDto) {
 		return vehicleRepository.updateTotalDistance(updateTotalDistanceDto);
 	}

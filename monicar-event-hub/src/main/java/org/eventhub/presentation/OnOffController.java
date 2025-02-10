@@ -14,6 +14,7 @@ import org.eventhub.domain.VehicleEventType;
 import org.eventhub.domain.VehicleInformation;
 import org.eventhub.domain.VehicleOffEventCreate;
 import org.eventhub.domain.VehicleOnEventCreate;
+import org.eventhub.domain.VehicleStatus;
 import org.eventhub.presentation.request.KeyOffRequest;
 import org.eventhub.presentation.request.KeyOnRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,8 @@ public class OnOffController {
 		VehicleOnEventCreate vehicleOnEventCreate = request.toDomain(vehicleInformation.getId(), vehicleInformation.getSum());
 		vehicleEventService.saveVehicleEvent(vehicleOnEventCreate);
 
+		vehicleService.updateVehicleStatus(vehicleInformation.getId(), VehicleStatus.IN_OPERATION);
+
 		return BaseResponse.success();
 	}
 
@@ -70,6 +73,8 @@ public class OnOffController {
 		if (isAlreadyOff) {
 			return BaseResponse.fail(ErrorCode.WRONG_APPROACH);
 		}
+
+		vehicleService.updateVehicleStatus(vehicleInformation.getId(), VehicleStatus.NOT_DRIVEN);
 
 		Long updatedTotalDistance = vehicleService.updateTotalDistance(UpdateTotalDistance.of(
 			vehicleInformation.getId(), request.sum()

@@ -3,7 +3,11 @@ package org.eventhub.infrastructure.repository.jpa.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import org.eventhub.domain.VehicleInformation;
+import org.eventhub.domain.VehicleStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -45,6 +49,9 @@ public class VehicleInformationEntity {
 	private Integer drivingDays;
 
 	private Long sum;
+
+	@Enumerated(value = EnumType.STRING)
+	private VehicleStatus status;
 
 	private LocalDate deliveryDate;
 
