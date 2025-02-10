@@ -40,3 +40,8 @@ cors:
 
 cookie:
   domain: ${COOKIE_DOMAIN}
+
+swagger:
+  server:
+    prod-url: ${PROD_URL}
+    dev-url: ${DEV_URL}
