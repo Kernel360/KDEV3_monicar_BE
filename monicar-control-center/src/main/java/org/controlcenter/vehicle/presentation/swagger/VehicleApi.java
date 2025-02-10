@@ -126,7 +126,7 @@ public interface VehicleApi {
 		@RequestParam(value = "status", defaultValue = "") VehicleStatus status);
 
 	@Operation(summary = "현재 운행중인 차량인지 조회", description = "차량 고유 ID를 통해 현재 차량이 운행중인지 조회")
-	BaseResponse<Void> isVehicleInOperation(
+	BaseResponse<Boolean> isVehicleInOperation(
 		@PathVariable("vehicle-id") Long vehicleId
 	);
 

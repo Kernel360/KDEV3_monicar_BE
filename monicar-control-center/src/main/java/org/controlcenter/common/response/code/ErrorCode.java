@@ -29,7 +29,6 @@ public enum ErrorCode {
 	VEHICLE_ALREADY_EXIST(2002, "이미 등록되어 있는 차량입니다."),
 	VEHICLE_NUMBER_ERROR(2003, "입력된 차량 번호 형식이 올바르지 않습니다. 형식: 숫자 2~3자리 + 한글 1자리 + 숫자 4자리"),
 	INVALID_ZOOM_LEVEL(2004, "지도의 줌 레벨은 1~13 사이여야합니다."),
-	NOT_IN_OPERATION(2005, "운행중인 차량이 아닙니다."),
 
 	AUTHORIZATION_DENIED(9000, "권한이 없습니다."),
 	EXPIRED_TOKENS(9993, "토큰 만료로 인해 로그아웃 되었습니다. 다시 로그인해 주세요."),
