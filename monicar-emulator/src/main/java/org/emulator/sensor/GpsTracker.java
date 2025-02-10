@@ -81,12 +81,12 @@ public class GpsTracker implements SensorTracker {
 	}
 
 	private boolean isReadyToSendCycleInfo(int time) {
-		return cycleInfos.size() > time;
+		return (!cycleInfos.isEmpty()) && (cycleInfos.size() > time);
 	}
 
 	private List<CycleInfo> pollFromDeque(int size) {
 		List<CycleInfo> result = new ArrayList<>();
-		while (!cycleInfos.isEmpty() && result.size() < size) {
+		while (result.size() < size) {
 			CycleInfo cycleInfo = cycleInfos.pollFirst();
 			if (Objects.nonNull(cycleInfo)) {
 				result.add(cycleInfo);
