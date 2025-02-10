@@ -17,7 +17,7 @@ public enum CycleInfoSize {
 	}
 
 	public void validate(int size) {
-		if (size >= this.size) {
+		if (size < this.size) {
 			throw new CustomException(ResponseCode.NOT_CYCLE_INFO_SIZE_ERROR);
 		}
 	}
