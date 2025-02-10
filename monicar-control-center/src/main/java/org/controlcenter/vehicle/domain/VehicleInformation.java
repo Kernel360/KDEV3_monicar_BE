@@ -42,4 +42,8 @@ public class VehicleInformation {
 			.deliveryDate(vehicleRegister.getDeliveryDate())
 			.build();
 	}
+
+	public boolean isInOperation() {
+		return status == VehicleStatus.IN_OPERATION;
+	}
 }

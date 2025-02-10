@@ -296,6 +296,20 @@ public class VehicleController implements VehicleApi {
 		return BaseResponse.success(clusterResponses);
 	}
 
+	/**
+	 * 운행중인 차량인지 조회
+	 */
+	@GetMapping("/{vehicle-id}/operaton-status")
+	public BaseResponse<Void> isVehicleInOperation(
+		@PathVariable("vehicle-id") Long vehicleId
+	) {
+		boolean inOperation = vehicleService.isVehicleInOperation(vehicleId);
+
+		return inOperation
+			? BaseResponse.success()
+			: BaseResponse.fail(ErrorCode.NOT_IN_OPERATION);
+	}
+
 	@GetMapping("/check")
 	public BaseResponse<Void> isExistVehicleNumber(
 		@RequestParam("vehicleNumber") String vehicleNumber

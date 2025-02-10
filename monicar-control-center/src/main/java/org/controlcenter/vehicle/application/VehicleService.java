@@ -71,4 +71,12 @@ public class VehicleService {
 		vehicleInformationJpaRepository.softDeleteById(vehicleId, now);
 		drivingHistoryJpaRepository.softDeleteById(vehicleId, now);
 	}
+
+	@Transactional(readOnly = true)
+	public boolean isVehicleInOperation(Long vehicleId) {
+		VehicleInformation vehicleInformation = vehicleRepository.findById(vehicleId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+
+		return vehicleInformation.isInOperation();
+	}
 }

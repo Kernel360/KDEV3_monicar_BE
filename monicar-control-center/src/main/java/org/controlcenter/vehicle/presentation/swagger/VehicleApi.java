@@ -125,6 +125,11 @@ public interface VehicleApi {
 		@Parameter(description = "조회할 차량 상태 (예: NOT_REGISTERED, NOT_DRIVEN, IN_OPERATION). 값이 없으면 모든 상태 조회", required = false, in = ParameterIn.QUERY)
 		@RequestParam(value = "status", defaultValue = "") VehicleStatus status);
 
+	@Operation(summary = "현재 운행중인 차량인지 조회", description = "차량 고유 ID를 통해 현재 차량이 운행중인지 조회")
+	BaseResponse<Void> isVehicleInOperation(
+		@PathVariable("vehicle-id") Long vehicleId
+	);
+
 	@Operation(summary = "지도 클러스터링 상세 조회", description = "특정 줌 레벨까지 도달했을 경우에 대한 차량 지도 클러스터링을 조회")
 	BaseResponse<List<ClusterDetail>> getClustersDetail(
 		@Parameter(description = "북동 좌표 위도 (정수, 원래 값 * 1,000,000)", required = true, in = ParameterIn.QUERY)
