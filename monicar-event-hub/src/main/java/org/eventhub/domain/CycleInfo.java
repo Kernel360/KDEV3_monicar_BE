@@ -14,5 +14,4 @@ public class CycleInfo {
 	private long lng;
 	private int ang;
 	private int spd;
-	private int sum;
 }

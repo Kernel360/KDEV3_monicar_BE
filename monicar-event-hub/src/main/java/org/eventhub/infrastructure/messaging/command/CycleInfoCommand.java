@@ -16,8 +16,7 @@ public record CycleInfoCommand(
 	Long lat,
 	Long lng,
 	Integer ang,
-	Integer spd,
-	Integer sum
+	Integer spd
 ) {
 	public static CycleInfoCommand from(CycleInfo cycleInfo) {
 		return CycleInfoCommand.builder()
@@ -27,7 +26,6 @@ public record CycleInfoCommand(
 			.lng(cycleInfo.getLng())
 			.ang(cycleInfo.getAng())
 			.spd(cycleInfo.getSpd())
-			.sum(cycleInfo.getSum())
 			.build();
 	}
 }
