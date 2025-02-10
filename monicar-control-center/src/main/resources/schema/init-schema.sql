@@ -85,7 +85,9 @@ CREATE TABLE vehicle_information
     `delivery_date`   DATE         NOT NULL COMMENT '출고일자',
     `created_at`      TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
     `updated_at`      TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
-    `deleted_at`      TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
+    `deleted_at`      TIMESTAMP    NULL COMMENT '테이블 삭제 시간',
+    constraint mdn
+        unique (mdn)
 ) ENGINE = InnoDB COMMENT ='차량정보';
 
 CREATE TABLE vehicle_types
